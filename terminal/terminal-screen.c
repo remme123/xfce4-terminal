@@ -284,6 +284,22 @@ terminal_screen_class_init (TerminalScreenClass *klass)
                   G_TYPE_NONE, 0);
 }
 
+static gboolean
+terminal_screen_button_press_event (VteTerminal *terminal,
+		GdkEventButton *event,
+		TerminalScreen *screen)
+{
+	/*!
+	 *  右键粘贴
+	 *  derry,2018.12.21
+	 */
+	if (event->button == 3) {
+		terminal_screen_paste_clipboard(screen);
+		return TRUE;
+	}
+
+	return FALSE;
+}
 
 
 static void
@@ -314,6 +330,13 @@ terminal_screen_init (TerminalScreen *screen)
   g_signal_connect (G_OBJECT (screen->terminal), "draw",
       G_CALLBACK (terminal_screen_draw), screen);
   gtk_box_pack_start (GTK_BOX (screen->hbox), screen->terminal, TRUE, TRUE, 0);
+
+  /*!
+   *  右键粘贴
+   *  derry,2018.12.21
+   */
+  g_signal_connect(G_OBJECT (screen->terminal), "button-press-event",
+		  G_CALLBACK (terminal_screen_button_press_event), screen);
 
   screen->scrollbar = gtk_scrollbar_new (GTK_ORIENTATION_VERTICAL,
                                          gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (screen->terminal)));
