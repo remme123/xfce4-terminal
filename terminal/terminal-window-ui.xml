@@ -95,6 +95,13 @@
     <menuitem action="save-contents"/>
     <separator/>
     <menuitem action="preferences"/>
+    <!--
+      添加一些右键菜单
+      derry,2018.12.21
+    -->
+    <separator/>
+    <menuitem action="reset-and-clear"/>
+    <menuitem action="about"/>
   </popup>
 
   <!-- The right click tab menu -->
