@@ -77,7 +77,9 @@ const gchar *CSS_SLIM_TABS =
 "  min-height: 0;\n"
 #endif
 "  font-weight: normal;\n"
-"  padding: 1px;\n"
+"  background-color: black;\n"
+"  color: white;\n"
+"  padding: 6px;\n"
 "  margin: 0;\n"
 "}\n"
 "#" NOTEBOOK_NAME " tab button {\n"
