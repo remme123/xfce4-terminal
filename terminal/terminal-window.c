@@ -72,6 +72,9 @@ enum
 /* CSS for slim notebook tabs style */
 #define NOTEBOOK_NAME PACKAGE_NAME "-notebook"
 const gchar *CSS_SLIM_TABS =
+"scrollbar {\n"
+"  background-color: black;\n"
+"}\n"
 "#" NOTEBOOK_NAME " tab {\n"
 #if GTK_CHECK_VERSION (3, 20, 0)
 "  min-height: 0;\n"
