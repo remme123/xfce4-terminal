@@ -122,6 +122,14 @@
     <menuitem action="close-tab"/>
   </popup>
 
+  <!-- 
+    pure tab menu
+    derry,2019.6.28
+  -->
+  <popup name="pure-tab-menu">
+    <placeholder name="placeholder-tab-items"/>
+  </popup>
+
   <!-- The toolbar -->
   <toolbar name="main-toolbar">
     <toolitem action="new-tab"/>

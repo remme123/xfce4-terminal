@@ -166,6 +166,12 @@ static gboolean     terminal_window_notebook_button_press_event   (GtkNotebook  
 static gboolean     terminal_window_notebook_button_release_event (GtkNotebook         *notebook,
                                                                    GdkEventButton      *event,
                                                                    TerminalWindow      *window);
+static gboolean     terminal_window_notebook_key_press_event   	  (GtkNotebook         *notebook,
+                                                                   GdkEventKey 	       *event,
+                                                                   TerminalWindow      *window);
+static gboolean     terminal_window_notebook_key_release_event 	  (GtkNotebook         *notebook,
+                                                                   GdkEventKey 	       *event,
+                                                                   TerminalWindow      *window);
 static gboolean     terminal_window_notebook_scroll_event         (GtkNotebook         *notebook,
                                                                    GdkEventScroll      *event,
                                                                    TerminalWindow      *window);
@@ -567,6 +573,15 @@ G_GNUC_END_IGNORE_DEPRECATIONS
       G_CALLBACK (terminal_window_notebook_button_release_event), window);
   g_signal_connect (G_OBJECT (window->priv->notebook), "scroll-event",
       G_CALLBACK (terminal_window_notebook_scroll_event), window);
+
+  /*
+   * 添加快捷键显示所有tabs
+   * derry,2019.6.28
+   */
+  g_signal_connect (G_OBJECT (window->priv->notebook), "key-press-event",
+      G_CALLBACK (terminal_window_notebook_key_press_event), window);
+  g_signal_connect (G_OBJECT (window->priv->notebook), "key-release-event",
+      G_CALLBACK (terminal_window_notebook_key_release_event), window);
 
   gtk_box_pack_start (GTK_BOX (window->priv->vbox), window->priv->notebook, TRUE, TRUE, 0);
   gtk_widget_show_all (window->priv->vbox);
@@ -1387,6 +1402,53 @@ terminal_window_notebook_event_in_allocation (gint       event_x,
 }
 
 
+static gboolean
+terminal_window_notebook_key_press_event (GtkNotebook    *notebook,
+                                             GdkEventKey *event,
+                                             TerminalWindow *window)
+{
+  int ret = FALSE;
+
+  //g_print("val:%x,%d,state:%x,mod:%d\n", event->keyval, event->keyval, event->state, event->is_modifier);
+  terminal_return_val_if_fail (TERMINAL_IS_WINDOW (window), FALSE);
+  terminal_return_val_if_fail (GTK_IS_NOTEBOOK (notebook), FALSE);
+
+  switch (event->keyval) {
+	  case GDK_KEY_F4:
+		  break;
+  }
+
+  return ret;
+}
+
+static gboolean
+terminal_window_notebook_key_release_event (GtkNotebook    *notebook,
+                                             GdkEventKey *event,
+                                             TerminalWindow *window)
+{
+	int ret = FALSE;
+	GtkWidget *menu;
+
+	//g_print("val:%x,%d,state:%x,mod:%d\n", event->keyval, event->keyval, event->state, event->is_modifier);
+	terminal_return_val_if_fail (TERMINAL_IS_WINDOW (window), FALSE);
+	terminal_return_val_if_fail (GTK_IS_NOTEBOOK (notebook), FALSE);
+
+	switch (event->keyval) {
+		case GDK_KEY_Alt_L:
+			//if ((event->state & GDK_MOD1_MASK) == 0) 
+			{
+				/* show the tab menu */
+				G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+				menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/pure-tab-menu");
+				G_GNUC_END_IGNORE_DEPRECATIONS
+				gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+				ret = TRUE;
+			}
+			break;
+	}
+
+	return ret;
+}
 
 static gboolean
 terminal_window_notebook_button_press_event (GtkNotebook    *notebook,
@@ -3303,6 +3365,20 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
       /* allow underscore to be shown */
       g_snprintf (buf, sizeof (buf), "/main-menu/tabs-menu/placeholder-tab-items/%s", name);
       gtk_menu_item_set_use_underline (GTK_MENU_ITEM (gtk_ui_manager_get_widget (window->priv->ui_manager, buf)), FALSE);
+G_GNUC_END_IGNORE_DEPRECATIONS
+
+	  /*
+	   * 添加快捷键直接调取tabs显示
+	   * derry,2019.6.28
+	   */
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+	  /* add to right-click tab menu */
+	  gtk_ui_manager_add_ui (window->priv->ui_manager, window->priv->tabs_menu_merge_id,
+							 "/pure-tab-menu/placeholder-tab-items",
+							 name, name, GTK_UI_MANAGER_MENUITEM, FALSE);
+	  /* allow underscore to be shown */
+	  g_snprintf (buf, sizeof (buf), "/pure-tab-menu/placeholder-tab-items/%s", name);
+	  gtk_menu_item_set_use_underline (GTK_MENU_ITEM (gtk_ui_manager_get_widget (window->priv->ui_manager, buf)), FALSE);
 G_GNUC_END_IGNORE_DEPRECATIONS
 
       if (npages > 1)
