@@ -845,7 +845,7 @@ terminal_preferences_class_init (TerminalPreferencesClass *klass)
       g_param_spec_boolean ("misc-borders-default",
                             NULL,
                             "MiscBordersDefault",
-                            TRUE,
+                            FALSE,
                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
@@ -876,7 +876,7 @@ terminal_preferences_class_init (TerminalPreferencesClass *klass)
       g_param_spec_string ("misc-default-geometry",
                            NULL,
                            "MiscDefaultGeometry",
-                           "80x24",
+                           "80x30",
                            G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
@@ -896,7 +896,7 @@ terminal_preferences_class_init (TerminalPreferencesClass *klass)
       g_param_spec_boolean ("misc-menubar-default",
                             NULL,
                             "MiscMenubarDefault",
-                            TRUE,
+                            FALSE,
                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
@@ -1007,7 +1007,7 @@ terminal_preferences_class_init (TerminalPreferencesClass *klass)
       g_param_spec_boolean ("misc-copy-on-select",
                             NULL,
                             "MiscCopyOnSelect",
-                            FALSE,
+                            TRUE,
                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
@@ -1037,7 +1037,7 @@ terminal_preferences_class_init (TerminalPreferencesClass *klass)
       g_param_spec_boolean ("misc-slim-tabs",
                             NULL,
                             "MiscSlimTabs",
-                            FALSE,
+                            TRUE,
                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
@@ -1047,7 +1047,7 @@ terminal_preferences_class_init (TerminalPreferencesClass *klass)
       g_param_spec_boolean ("misc-new-tab-adjacent",
                             NULL,
                             "MiscNewTabAdjacent",
-                            FALSE,
+                            TRUE,
                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
@@ -1098,7 +1098,7 @@ terminal_preferences_class_init (TerminalPreferencesClass *klass)
       g_param_spec_uint ("scrolling-lines",
                          NULL,
                          "ScrollingLines",
-                         0u, 1024u * 1024u, 1000u,
+                         0u, 1024u * 1024u, 10000u,
                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
@@ -1118,7 +1118,7 @@ terminal_preferences_class_init (TerminalPreferencesClass *klass)
       g_param_spec_boolean ("scrolling-on-output",
                             NULL,
                             "ScrollingOnOutput",
-                            TRUE,
+                            FALSE,
                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
