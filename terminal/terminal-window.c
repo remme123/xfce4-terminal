@@ -1409,12 +1409,23 @@ terminal_window_notebook_key_press_event (GtkNotebook    *notebook,
 {
   int ret = FALSE;
 
-  //g_print("val:%x,%d,state:%x,mod:%d\n", event->keyval, event->keyval, event->state, event->is_modifier);
+  //g_print("DOWN val:%x,%d,state:%x,mod:%d\n", event->keyval, event->keyval, event->state, event->is_modifier);
   terminal_return_val_if_fail (TERMINAL_IS_WINDOW (window), FALSE);
   terminal_return_val_if_fail (GTK_IS_NOTEBOOK (notebook), FALSE);
 
   switch (event->keyval) {
-	  case GDK_KEY_F4:
+	  /* Ctrl+Alt */
+	  case GDK_KEY_Control_L:
+	  case GDK_KEY_Alt_L:
+		  if (event->state & (GDK_MOD1_MASK | GDK_CONTROL_MASK)) {
+			  GtkWidget *menu;
+			  /* show the tab menu */
+			  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+				  menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/pure-tab-menu");
+			  G_GNUC_END_IGNORE_DEPRECATIONS
+				  gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+			  ret = TRUE;
+		  }
 		  break;
   }
 
@@ -1429,22 +1440,11 @@ terminal_window_notebook_key_release_event (GtkNotebook    *notebook,
 	int ret = FALSE;
 	GtkWidget *menu;
 
-	//g_print("val:%x,%d,state:%x,mod:%d\n", event->keyval, event->keyval, event->state, event->is_modifier);
+	//g_print("UP val:%x,%d,state:%x,mod:%d\n", event->keyval, event->keyval, event->state, event->is_modifier);
 	terminal_return_val_if_fail (TERMINAL_IS_WINDOW (window), FALSE);
 	terminal_return_val_if_fail (GTK_IS_NOTEBOOK (notebook), FALSE);
-
+	
 	switch (event->keyval) {
-		case GDK_KEY_Alt_L:
-			//if ((event->state & GDK_MOD1_MASK) == 0) 
-			{
-				/* show the tab menu */
-				G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-				menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/pure-tab-menu");
-				G_GNUC_END_IGNORE_DEPRECATIONS
-				gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
-				ret = TRUE;
-			}
-			break;
 	}
 
 	return ret;
