@@ -977,7 +977,7 @@ terminal_preferences_class_init (TerminalPreferencesClass *klass)
                          NULL,
                          "MiscTabPosition",
                          GTK_TYPE_POSITION_TYPE,
-                         GTK_POS_TOP,
+                         GTK_POS_BOTTOM,
                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
