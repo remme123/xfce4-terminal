@@ -1417,7 +1417,7 @@ terminal_window_notebook_key_press_event (GtkNotebook    *notebook,
 	  /* Ctrl+Alt */
 	  case GDK_KEY_Control_L:
 	  case GDK_KEY_Alt_L:
-		  if (event->state & (GDK_MOD1_MASK | GDK_CONTROL_MASK)) {
+		  if (0 && (event->state & (GDK_MOD1_MASK | GDK_CONTROL_MASK))) {
 			  GtkWidget *menu;
 			  /* show the tab menu */
 			  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
