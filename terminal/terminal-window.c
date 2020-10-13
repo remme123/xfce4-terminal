@@ -1716,6 +1716,7 @@ static GtkWidget*
 terminal_window_get_context_menu (TerminalScreen  *screen,
                                   TerminalWindow  *window)
 {
+#if 0
   GtkWidget *popup = NULL;
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
@@ -1724,6 +1725,10 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 G_GNUC_END_IGNORE_DEPRECATIONS
 
   return popup;
+#else
+  terminal_screen_paste_clipboard(screen);
+  return NULL;
+#endif  
 }
 
 
