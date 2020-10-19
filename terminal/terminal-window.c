@@ -868,6 +868,18 @@ G_GNUC_END_IGNORE_DEPRECATIONS
           return TRUE;
         }
     }
+  else if (event->keyval == GDK_KEY_Menu)
+  {
+  	  /* 
+  	   * Menu键弹出右键菜单
+  	   * derry, 2020.10.19
+  	   */
+	  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+		  GtkWidget *menu = gtk_ui_manager_get_widget (window->priv->ui_manager, "/popup-menu");
+	  G_GNUC_END_IGNORE_DEPRECATIONS
+		  gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+	  return TRUE;
+  }
 
   return (*GTK_WIDGET_CLASS (terminal_window_parent_class)->key_press_event) (widget, event);
 }
